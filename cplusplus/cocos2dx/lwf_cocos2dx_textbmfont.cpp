@@ -29,7 +29,8 @@
 
 namespace LWF {
 
-class LWFTextBMFont : public cocos2d::LabelBMFont
+//class LWFTextBMFont : public cocos2d::LabelBMFont
+class LWFTextBMFont : public cocos2d::Label
 {
 protected:
 	Matrix m_matrix;
@@ -63,7 +64,8 @@ public:
 		cocos2d::TextHAlignment hAlignment, cocos2d::TextVAlignment vAlignment,
 		float red, float green, float blue)
 	{
-		if (!cocos2d::LabelBMFont::initWithString("", fontPath))
+		//if (!cocos2d::LabelBMFont::initWithString("", fontPath))
+		if (!cocos2d::Label::setBMFontFilePath(fontPath))
 			return false;
 
 		m_fontHeight =
@@ -89,7 +91,8 @@ public:
 	{
 		if (!bVisible)
 			m_matrix.Invalidate();
-		cocos2d::LabelBMFont::setVisible(bVisible);
+		//cocos2d::LabelBMFont::setVisible(bVisible);
+		setVisible(bVisible);
 	}
 
 	void setMatrixAndColorTransform(const Matrix *m, const ColorTransform *cx)
@@ -110,17 +113,22 @@ public:
 
 		const Color &c = cx->multi;
 		const cocos2d::Color3B &dc = node->getDisplayedColor();
-		setColor((cocos2d::Color3B){
+		//setColor((cocos2d::Color3B){
+		//	(GLubyte)(c.red * m_red * dc.r),
+		//	(GLubyte)(c.green * m_green * dc.g),
+		//	(GLubyte)(c.blue * m_blue * dc.b)});
+		setColor(cocos2d::Color3B(
 			(GLubyte)(c.red * m_red * dc.r),
 			(GLubyte)(c.green * m_green * dc.g),
-			(GLubyte)(c.blue * m_blue * dc.b)});
+			(GLubyte)(c.blue * m_blue * dc.b)));
 		setOpacity((GLubyte)(c.alpha * node->getDisplayedOpacity()));
 	}
 
 	void setString(const std::string &label)
 	{
-		cocos2d::LabelBMFont::setString(label);
-		
+		//cocos2d::LabelBMFont::setString(label);
+		cocos2d::Label::setString(label);
+
 		float height = getContentSize().height;
 		switch (m_vAlignment) {
 		case cocos2d::TextVAlignment::TOP:

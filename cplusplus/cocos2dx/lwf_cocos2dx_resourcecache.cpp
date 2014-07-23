@@ -54,13 +54,17 @@ LWFResourceCache::~LWFResourceCache()
 shared_ptr<LWFData> LWFResourceCache::loadLWFDataInternal(const string &path)
 {
     long size;
-	unsigned char *buffer =
-		FileUtils::getInstance()->getFileData(path.c_str(), "r", &size);
+	//unsigned char *buffer =
+		//FileUtils::getInstance()->getFileData(path.c_str(), "r", &size);
+	cocos2d::Data fdata = FileUtils::getInstance()->getDataFromFile(path);
+	size = fdata.getSize();
+	unsigned char * buffer = fdata.getBytes();
+
 	if (!buffer)
 		return shared_ptr<LWFData>();
 
 	shared_ptr<LWFData> data = make_shared<LWFData>(buffer, size);
-	delete [] buffer;
+	//delete [] buffer;
 	if (!data->Check())
 		return shared_ptr<LWFData>();
 

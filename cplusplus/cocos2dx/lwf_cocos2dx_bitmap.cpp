@@ -152,10 +152,8 @@ public:
 		cocos2d::Node *node = getParent();
 		const Color &c = cx->multi;
 		const cocos2d::Color3B &dc = node->getDisplayedColor();
-		setColor((cocos2d::Color3B){
-			(GLubyte)(c.red * dc.r),
-			(GLubyte)(c.green * dc.g),
-			(GLubyte)(c.blue * dc.b)});
+		auto tmpColor = cocos2d::Color3B((GLubyte)(c.red * dc.r), (GLubyte)(c.green * dc.g), (GLubyte)(c.blue * dc.b));
+		setColor(tmpColor);
 		setOpacity((GLubyte)(c.alpha * node->getDisplayedOpacity()));
 	}
 

@@ -51,7 +51,8 @@ public:
 
 	void SetText(string text);
 
-	cocos2d::LabelTTF *GetLabel() {return (cocos2d::LabelTTF *)m_label;}
+	//cocos2d::LabelTTF *GetLabel() { return (cocos2d::LabelTTF *)m_label; }
+	cocos2d::Label *GetLabel() { return (cocos2d::Label *)m_label; }
 };
 
 }   // namespace LWF

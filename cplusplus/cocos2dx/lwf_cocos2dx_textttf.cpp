@@ -28,7 +28,8 @@
 
 namespace LWF {
 
-class LWFTextTTF : public cocos2d::LabelTTF
+//class LWFTextTTF : public cocos2d::LabelTTF
+class LWFTextTTF : public cocos2d::Label
 {
 protected:
 	Matrix m_matrix;
@@ -58,11 +59,19 @@ public:
 			cocos2d::TextVAlignment vAlignment,
 			float red, float green, float blue)
 	{
-		if (!cocos2d::LabelTTF::initWithString(string,
-				fontName, fontSize, dimensions, hAlignment, vAlignment))
-			return false;
+//		if (!cocos2d::Label::initWithString(string,
+//				fontName, fontSize, dimensions, hAlignment, vAlignment))
+//			return false;
 
-		setFlippedY(true);
+//		setFlippedY(true);
+		cocos2d::Label::setSystemFontName(fontName);
+		cocos2d::Label::setSystemFontSize(fontSize);
+		cocos2d::Label::setDimensions(dimensions.width, dimensions.height);
+		cocos2d::Label::setAlignment(hAlignment, vAlignment);
+		cocos2d::Label::setString(string);
+
+		setScaleY(-1.0f);
+
 		setRGB(red, green, blue);
 		return true;
 	}
@@ -78,7 +87,8 @@ public:
 	{
 		if (!bVisible)
 			m_matrix.Invalidate();
-		cocos2d::LabelTTF::setVisible(bVisible);
+		//cocos2d::LabelTTF::setVisible(bVisible);
+		setVisible(bVisible);
 	}
 
 	void setMatrixAndColorTransform(const Matrix *m, const ColorTransform *cx)
@@ -88,7 +98,8 @@ public:
             cocos2d::Mat4 mat = cocos2d::Mat4(
 				m->scaleX, m->skew0, 0, m->translateX,
 				-m->skew1, -m->scaleY, 0,
-					-m->translateY - m->scaleY * getFontSize() * 96.0f / 72.0f,
+				//	-m->translateY - m->scaleY * getFontSize() * 96.0f / 72.0f,
+				-m->translateY - m->scaleY * getSystemFontSize() * 96.0f / 72.0f,
 				0, 0, 1, 0,
 				0, 0, 0, 1);
 			setNodeToParentTransform(mat);
@@ -97,10 +108,15 @@ public:
 		cocos2d::LWFNode *node = (cocos2d::LWFNode *)getParent();
 		const Color &c = cx->multi;
 		const cocos2d::Color3B &dc = node->getDisplayedColor();
-		setColor((cocos2d::Color3B){
-			(GLubyte)(c.red * m_red * dc.r),
-			(GLubyte)(c.green * m_green * dc.g),
-			(GLubyte)(c.blue * m_blue * dc.b)});
+		//setColor((cocos2d::Color3B){
+		//	(GLubyte)(c.red * m_red * dc.r),
+		//	(GLubyte)(c.green * m_green * dc.g),
+		//	(GLubyte)(c.blue * m_blue * dc.b)});
+		setColor(cocos2d::Color3B(
+				(GLubyte)(c.red * m_red * dc.r),
+				(GLubyte)(c.green * m_green * dc.g),
+				(GLubyte)(c.blue * m_blue * dc.b)));
+
 		setOpacity((GLubyte)(c.alpha * node->getDisplayedOpacity()));
 	}
 };

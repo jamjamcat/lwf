@@ -26,8 +26,16 @@
 #include "lwf_type.h"
 
 
+//namespace LWF {
+//class Data;
+//}
+
 namespace LWF {
-class Data;
+#ifdef WIN32
+	struct Data;
+#else
+	class Data;
+#endif
 }
 
 NS_CC_BEGIN
